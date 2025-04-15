@@ -1,7 +1,8 @@
 import machine
 import sys
 import time
-#setup switches. will do this manually for now.
+#setup the switch pin
+switch=machine.Pin(2, machine.Pin.OUT)
 
 def set_pin_state(state):
     '''sets the python state based on the command received thru serial.'''
