@@ -4,7 +4,7 @@ import time
 
 #set up the gpio switches
 PINS = [0,1,2]
-SETPINS = {f'idx{pindex}' : machine.Pin(pin, machine.Pin.OUT) for pindex, pin in PINS.enumerate()} #initialize pins in dict
+SETPINS = {f'idx{pindex}' : machine.Pin(PINS[pindex], machine.Pin.OUT) for pindex in range(len(PINS))}
 
 def set_switch_states(statestr, pins=SETPINS):
     '''takes a string of 0s and 1s from the controlling computer. for each of these elements and toggles the 0/1 state indicated for the GPIO pin at the correct index.'''
@@ -16,7 +16,8 @@ def set_switch_states(statestr, pins=SETPINS):
         print('not enough states for num of pins.') 
         return
 
-    for pindex, state in states.enumerate():
+    for pindex in range(len(states)):
+        state = states[pindex]
         try: #if state is not 0 or 1, it can't get through
             assert (state == 1) or (state==0)
         except AssertionError:
