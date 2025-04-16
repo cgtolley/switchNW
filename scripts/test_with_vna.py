@@ -2,10 +2,16 @@ from cmt_vna import VNA
 import matplotlib.pyplot as plt
 import numpy as np
 from switch_network import SwitchNetwork
+from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
+
+parser = ArgumentParser(description = "demo switching and vna measurements.", formatter_class = ArgumentDefaultsHelpFormatter)
+parser.add_argument('--sernum', '-s', default='/dev/ttyACM0', help='port path')
+
+args = parser.parse_args()
 
 vna = VNA()
 
-snw = SwitchNetwork()
+snw = SwitchNetwork(serport = args.serport)
 
 #just doing it manually, no for loops
 freqs = vna.setup(npoints=100)
