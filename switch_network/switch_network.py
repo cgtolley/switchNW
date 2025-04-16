@@ -1,4 +1,5 @@
 import numpy as np
+import time
 import serial
 
 paths = {
@@ -25,7 +26,7 @@ class SwitchNetwork:
         assert pathname in self.paths.keys() #make sure the path name is in the keys
         path = self.paths[pathname]
         self.ser.write(path.encode()) #encode the path and write to the thing 
-        
+        time.sleep(0.02) #20ms activation time
         pathsum = sum([int(i) for i in list(path)])
         self.state = (pathname, pathsum) #set the active state status
         
