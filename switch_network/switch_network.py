@@ -9,16 +9,17 @@ paths = {
             'short':'101'
         }
 gpios = [0,1,2]
+
 class SwitchNetwork:
 
-    def __init__(self, gpios=gpios, paths=paths):
+    def __init__(self, gpios=gpios, paths=paths, sernum = '/dev/ttyACM0'):
 
         '''make a dictionary of the objects and their switch paths.
         set up the software interfacing.
         '''
         self.paths = paths #will just need to write this by hand. 
         self.state = None #state will initially be in the low power mode, defined as the key to the path that is all zeros.
-        self.ser = serial.Serial('/dev/ttyACM0', 115200)
+        self.ser = serial.Serial(sernum, 115200)
         self.powerdown()
  
     def switch(self, pathname, verbose=False):
