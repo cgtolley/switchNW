@@ -7,10 +7,10 @@ paths = {
             'open': '100',
             'short':'101'
         }
-
+gpios = [0,1,2]
 class SwitchNetwork:
 
-    def __init__(self, gpios, paths=paths):
+    def __init__(self, gpios=gpios, paths=paths):
 
         '''make a dictionary of the objects and their switch paths.
         set up the software interfacing.
@@ -38,7 +38,6 @@ class SwitchNetwork:
         #call switch func on lowest power state.
         states = list(self.paths.keys())
         pathstr = list(self.paths.values())
-        print(pathstr)
         allzeros = [all(i=='0' for i in path) for path in pathstr]
         default = states[allzeros == True]
         self.switch(pathname=default)
