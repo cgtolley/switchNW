@@ -1,6 +1,10 @@
 import time
 import machine
 
+#commands used:
+#mpremote cp test_script.py :test_script.py
+#mpremote run test_script.py
+
 led = machine.Pin(25, machine.Pin.OUT)
 
 t0=time.time()
