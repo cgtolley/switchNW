@@ -17,5 +17,5 @@
 > Then, when initializing the SwitchNetwork Object, first set the correct paths to each object in a dictionary, the correct pins for the gpios argument, and the correct /dev/ttyACM* path for the USB serial.
 
 **Resources**
-See EIGSEP memo in preparation. 
+> See EIGSEP memo in preparation. 
 
