@@ -5,8 +5,10 @@ import numpy as np
 from switch_network import SwitchNetwork
 from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
 from cmt_vna import calkit as cal
+import time 
 
 FSTART, FSTOP = 250E6, 1.8E9
+#FSTART, FSTOP = 50E6, 250e6 
 
 PATHS = {
             'load' : '010',
@@ -23,17 +25,16 @@ assert len(sys.argv) == 2
 filename = sys.argv[-1]
 
 vna = VNA()
-
 snw = SwitchNetwork(serport = SERPORT, gpios = GPIOS, paths=PATHS)
 
 #just doing it manually, no for loops
 freqs = vna.setup(npoints=1000, fstart=FSTART, fstop=FSTOP)
 
-snw.switch('open')
-open_std = vna.measure_S11()
-
 snw.switch('short')
 short_std = vna.measure_S11()
+
+snw.switch('open')
+open_std = vna.measure_S11()
 
 snw.switch('load')
 load = vna.measure_S11()

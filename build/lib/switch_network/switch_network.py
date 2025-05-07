@@ -48,3 +48,5 @@ class SwitchNetwork:
             assert self.state[1] == 0 #by the end of this func, the first index of the state attribute should be 0, where the 0th index is the pathname.
         except AssertionError:
             print(f'state is {self.state}')
+        finally:
+            time.sleep(0.1)
