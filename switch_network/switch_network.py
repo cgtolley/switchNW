@@ -20,6 +20,7 @@ class SwitchNetwork:
         self.paths = paths #will just need to write this by hand. 
         self.state = None #state will initially be in the low power mode, defined as the key to the path that is all zeros.
         self.ser = serial.Serial(serport, 115200)
+        self.gpios = gpios
         self.powerdown()
  
     def switch(self, pathname, verbose=False):
@@ -38,10 +39,10 @@ class SwitchNetwork:
     
     def powerdown(self):
         #call switch func on lowest power state.
-        states = list(self.paths.keys())
-        pathstr = list(self.paths.values())
+        states = np.array(list(self.paths.keys()))
+        pathstr = np.array(list(self.paths.values()))
         allzeros = [all(i=='0' for i in path) for path in pathstr]
-        default = states[allzeros == True]
+        default = states[allzeros][0]
         self.switch(pathname=default)
         try:
             assert self.state[1] == 0 #by the end of this func, the first index of the state attribute should be 0, where the 0th index is the pathname.
