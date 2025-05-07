@@ -45,7 +45,7 @@ kit = cal.S911T(freq_Hz = freqs)
 vna_stds = np.vstack([open_std, short_std, load])
 sparams = {'vna': kit.sparams(stds_meas = vna_stds)}
 antenna_cal = cal.calibrate(gammas=np.array([antenna]), sprms_dict=sparams)
-np.savez(filename, antenna=antenna_cal)
+np.savez(filename, freqs=freqs, antenna=antenna_cal)
 
 plt.ion()
 fig, ax = plt.subplots(2,1, figsize=(8,8), sharex = True)
