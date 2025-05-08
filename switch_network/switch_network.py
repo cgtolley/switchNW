@@ -2,17 +2,22 @@ import numpy as np
 import time
 import serial
 
-paths = {
-            'antenna':'000', 
-            'load': '010',
-            'open': '100',
-            'short':'101'
+PATHS = {
+            'VNAO'   : '1000000',
+            'VNAS'   : '1100000',
+            'VNAL'   : '0010000',
+            'VNAANT' : '0000010',
+            'VNAN'   : '0000011',
+            'VNARF'  : '0001100',
+            'RFN'    : '0000001',
+            'RFANT'  : '0000000'
         }
-gpios = [0,1,2]
+
+GPIOS = [2,7,1,6,3,0,4]
 
 class SwitchNetwork:
 
-    def __init__(self, gpios=gpios, paths=paths, serport= '/dev/ttyACM0'):
+    def __init__(self, gpios=GPIOS, paths=PATHS, serport= '/dev/ttyACM0'):
 
         '''make a dictionary of the objects and their switch paths.
         set up the software interfacing.

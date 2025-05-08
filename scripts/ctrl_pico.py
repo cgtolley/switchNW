@@ -3,7 +3,7 @@ import sys
 import time
 
 #set up the gpio switches
-PINS = [0,1,2,3,4,6,7]
+PINS = [2,7,1,6,3,0,4]
 SETPINS = {f'idx{pindex}' : machine.Pin(PINS[pindex], machine.Pin.OUT) for pindex in range(len(PINS))}
 
 def set_switch_states(statestr, pins=SETPINS):
