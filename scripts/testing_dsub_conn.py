@@ -2,14 +2,18 @@ from switch_network import SwitchNetwork
 import numpy as np
 
 PATHS = {
-            'one' : '100',
-            'two' : '010',
-            'three' : '001',
-            'all' : '111',
-            'none' : '000'
+            'one'   : '1000000',
+            'two'   : '0100000',
+            'three' : '0010000',
+            'four'  : '0001000',
+            'five'  : '0000100',
+            'six'   : '0000010',
+            'seven' : '0000001',
+            'all'   : '1111111',
+            'none'  : '0000000'
         }
 
-GPIOS = [3,2,4]
+GPIOS = [0,1,2,3,4,6,7]
 
 snw = SwitchNetwork(serport='/dev/ttyACM0', gpios=GPIOS, paths=PATHS)
 input(snw.state)
