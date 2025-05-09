@@ -30,10 +30,11 @@ snw = SwitchNetwork(serport = SERPORT)
 #just doing it manually, no for loops
 freqs = vna.setup(npoints=1000, fstart=FSTART, fstop=FSTOP)
 
-vna.add_OSL(snw=snw, auto=True)
-snw.switch('VNAANT')
+vna.add_OSL(snw=snw)
+input('switch to antenna now')
+#snw.switch('VNAANT')
 antenna = vna.measure_S11()
-snw.powerdown()
+#snw.powerdown()
 
 kit = cal.S911T(freq_Hz = freqs)
 stds_meas = vna.data['vna']
@@ -45,7 +46,7 @@ np.savez(filename, freqs=freqs, antenna=antenna_cal)
 plt.ion()
 fig, ax = plt.subplots(2,1, figsize=(8,8), sharex = True)
 
-ax[0].plot(freqs/1e6, np.log10(np.abs(vna.data['vna'].T))) 
+ax[0].plot(freqs/1e6, np.log10(20*np.abs(vna.data['vna'].T))) 
 ax[0].legend()
 
 ax[1].plot(freqs/1e6, 20*np.log10(np.abs(antenna_cal[0])))
