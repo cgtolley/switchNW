@@ -29,13 +29,22 @@ class SwitchNetwork:
         self.powerdown()
  
     def switch(self, pathname, verbose=False):
-        '''set switches at given GPIO pins to the low/high power modes specified at paths.'''
+        '''set switches at given GPIO pins to the low/high power modes specified at paths.
+            
+            IN
+            pathname : the key for the path you want to switch to.
+            verbose : if True, then the function prints the states of the GPIO pins for verification.
+
+            OUT 
+            writes the pathname and the sum of the logic commands to the self.state property as a tuple.
+                ex: self.state = ('VNAANT', 0)
+            '''
         assert pathname in self.paths.keys() #make sure the path name is in the keys
         path = self.paths[pathname]
         self.ser.write(path.encode()) #encode the path and write to the thing 
         time.sleep(0.02) #20ms activation time
         pathsum = sum([int(i) for i in list(path)])
-        self.state = (pathname, pathsum) #set the active state status
+        self.state = (pathname, pathsum) 
         
         if verbose: #if the verbose flag is set, then print stuff
             print(pathname, ' is set.')
@@ -43,15 +52,24 @@ class SwitchNetwork:
                 print(f'GPIO{i} set to {path[idx]}.')
     
     def powerdown(self):
+        '''
+            
+            Finds the path with all zeros and switches to that path. Should be run at the end of every script to ensure that the switch network is snoozing on the lowest power setting. If that state doesn't exist, 
+
+        '''
         #call switch func on lowest power state.
         states = np.array(list(self.paths.keys()))
         pathstr = np.array(list(self.paths.values()))
-        allzeros = [all(i=='0' for i in path) for path in pathstr]
-        default = states[allzeros][0]
-        self.switch(pathname=default)
-        try:
-            assert self.state[1] == 0 #by the end of this func, the first index of the state attribute should be 0, where the 0th index is the pathname.
-        except AssertionError:
-            print(f'state is {self.state}')
-        finally:
-            time.sleep(0.1)
+        
+        pathsums = np.array([sum([int(i) for i in path]) for path in pathstr])
+        print(pathsums)
+        print(pathsums[pathsums == 0])
+        #allzeros = [all(i=='0' for i in path) for path in pathstr]
+        #default = states[allzeros][0]
+        #self.switch(pathname=default)
+        #try:
+        #    assert self.state[1] == 0 #by the end of this func, the first index of the state attribute should be 0, where the 0th index is the pathname.
+        #except AssertionError:
+        #    print(f'state is {self.state}')
+        #finally:
+        #    time.sleep(0.1)
