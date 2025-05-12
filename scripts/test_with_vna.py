@@ -1,3 +1,9 @@
+'''This script is for development, allows me to test the vna/switch compatibility and take data. Need a filename to write test data to, and you can configure how the script runs by changing the variables defined at the top.
+
+AUTO: whether or not to use switch network to switch automatically.
+FSTART, FSTOP : frequency ranges. 
+'''
+
 import sys
 from cmt_vna import VNA
 import matplotlib.pyplot as plt
@@ -10,14 +16,7 @@ import time
 FSTART, FSTOP = 250E6, 1.8E9
 #FSTART, FSTOP = 50E6, 250e6 
 
-#PATHS = {
-#            'load' : '010',
-#            'open' : '101',
-#            'antenna' : '000',
-#            'short': '100'
-#        }
-#
-#GPIOS = [3,2,7]
+AUTO = True
 
 SERPORT = '/dev/ttyACM0'
 
@@ -27,14 +26,17 @@ filename = sys.argv[-1]
 vna = VNA()
 snw = SwitchNetwork(serport = SERPORT)
 
-#just doing it manually, no for loops
-freqs = vna.setup(npoints=1000, fstart=FSTART, fstop=FSTOP)
+freqs = vna.setup(npoints=100, fstart=FSTART, fstop=FSTOP)
+if AUTO:
+    vna.add_OSL(snw=snw)
+    snw.switch('VNAANT')
 
-vna.add_OSL(snw=snw)
-input('switch to antenna now')
-#snw.switch('VNAANT')
+elif not AUTO:
+    vna.add_OSL(snw=None)
+    input('Switch to antenna now.')
+
 antenna = vna.measure_S11()
-#snw.powerdown()
+snw.powerdown()
 
 kit = cal.S911T(freq_Hz = freqs)
 stds_meas = vna.data['vna']

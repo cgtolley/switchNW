@@ -1,3 +1,4 @@
+'''dev script for switching through all switches.'''
 from switch_network import SwitchNetwork
 import numpy as np
 

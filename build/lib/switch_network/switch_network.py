@@ -1,4 +1,5 @@
 import numpy as np
+import warnings
 import time
 import serial
 
@@ -53,8 +54,7 @@ class SwitchNetwork:
     
     def powerdown(self):
         '''
-            
-            Finds the path with all zeros and switches to that path. Should be run at the end of every script to ensure that the switch network is snoozing on the lowest power setting. If that state doesn't exist, 
+            Finds and switches to the lowest power mode in self.paths. If none of the paths are set such that all switches are in the 0 state, it throws a warning that there is a still power being drawn. 
 
         '''
         #call switch func on lowest power state.
@@ -62,14 +62,12 @@ class SwitchNetwork:
         pathstr = np.array(list(self.paths.values()))
         
         pathsums = np.array([sum([int(i) for i in path]) for path in pathstr])
-        print(pathsums)
-        print(pathsums[pathsums == 0])
-        #allzeros = [all(i=='0' for i in path) for path in pathstr]
-        #default = states[allzeros][0]
-        #self.switch(pathname=default)
-        #try:
-        #    assert self.state[1] == 0 #by the end of this func, the first index of the state attribute should be 0, where the 0th index is the pathname.
-        #except AssertionError:
-        #    print(f'state is {self.state}')
-        #finally:
-        #    time.sleep(0.1)
+        lowpower = states[pathsums == min(pathsums)][0]
+        self.switch(pathname=lowpower)
+        
+        try:
+            assert self.state[1] == 0 #by the end of this func, the first index of the state attribute should be 0, where the 0th index is the pathname.
+        except AssertionError:
+            warnings.warn('WARNING: lowest power mode has one or more switches in the high power state.')
+        finally:
+            time.sleep(0.1)

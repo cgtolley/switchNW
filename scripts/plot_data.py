@@ -1,3 +1,4 @@
+'''Script that plots data. Must have 'freqs' and 'antenna' keys in the npzs.'''
 import sys
 import numpy as np
 import matplotlib.pyplot as plt

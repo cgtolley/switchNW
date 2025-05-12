@@ -1,3 +1,4 @@
+'''This script gets copied to the pico and listens for commands from the Panda.'''
 import machine
 import sys
 import time
