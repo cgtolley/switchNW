@@ -3,6 +3,12 @@ import warnings
 import time
 import serial
 
+'''The SwitchNetwork class sends commands to the pico connected to the serport. 
+
+Hard-coded variables: 
+PATHS dictionary. The keys start with where the path starts: either RF (port connected to LNA) or VNA (port connected to the VNA), and end with the end of the path - ANT (antenna), O, S, L (OSL standards), or N (noise source).
+GPIOS list. gpio pin numbers - the index of the pin should correspond to the index of the state it should be in for each path in PATHS.
+''' 
 PATHS = {
             'VNAO'   : '1000000',
             'VNAS'   : '1100000',
