@@ -1,4 +1,4 @@
-'''This script is for development, allows me to test the vna/switch compatibility and take data. Need a filename to write test data to, and you can configure how the script runs by changing the variables defined at the top.
+'''This script is for development, allows me to test the vna/switch compatibility and take data. Need a filename to write test data to, and you can configure how the script runs by changing the variables defined at the top. Writes and plots data.
 
 AUTO: whether or not to use switch network to switch automatically.
 FSTART, FSTOP : frequency ranges. 
@@ -20,7 +20,11 @@ AUTO = True
 
 SERPORT = '/dev/ttyACM0'
 
-assert len(sys.argv) == 2
+try:
+    assert len(sys.argv) == 2
+except AssertionError:
+    print('You must have a filename.')
+
 filename = sys.argv[-1]
 
 vna = VNA()
